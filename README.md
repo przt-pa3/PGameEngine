@@ -2,11 +2,16 @@
 Making Custom Game Engine 
 (Now On Animation)
 
-TODO
-.gitignore 추가
-모듈별 Readme
-warning 삭제
-fbxsdk로 프로젝트에 따로 넣어서 빌드 되게
+TODO  
+.gitignore 추가  
+모듈별 Readme  
+warning 삭제  
+fbxsdk로 프로젝트에 따로 넣어서 빌드 되게  
+경로설정  
+e.g.)  
+>  $(SolutionDir)Source\Runtime\AssetLoader\Source  
+
+------------
 
 C:/Work/PGameEngine
 
