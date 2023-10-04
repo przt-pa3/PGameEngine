@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="Source\Public\Windows\WindowsPlatform.h" />
+    <ClInclude Include="Source\Precompiled.h" />
+    <ClInclude Include="Source\Public\ScreenPoint.h" />
+    <ClInclude Include="Source\Public\MathHeaders.h" />
+    <ClInclude Include="Source\Public\Platform.h" />
+    <ClInclude Include="Source\Public\CoreDefinition.h" />
+    <ClInclude Include="Source\Public\Box.h" />
+    <ClInclude Include="Source\Public\Circle.h" />
+    <ClInclude Include="Source\Public\Color32.h" />
+    <ClInclude Include="Source\Public\Frustum.h" />
+    <ClInclude Include="Source\Public\HSVColor.h" />
+    <ClInclude Include="Source\Public\LinearColor.h" />
+    <ClInclude Include="Source\Public\MathUtil.h" />
+    <ClInclude Include="Source\Public\Matrix2x2.h" />
+    <ClInclude Include="Source\Public\Matrix3x3.h" />
+    <ClInclude Include="Source\Public\Matrix4x4.h" />
+    <ClInclude Include="Source\Public\Plane.h" />
+    <ClInclude Include="Source\Public\Quaternion.h" />
+    <ClInclude Include="Source\Public\Rectangle.h" />
+    <ClInclude Include="Source\Public\Rotator.h" />
+    <ClInclude Include="Source\Public\Sphere.h" />
+    <ClInclude Include="Source\Public\Transform.h" />
+    <ClInclude Include="Source\Public\Vector2.h" />
+    <ClInclude Include="Source\Public\Vector3.h" />
+    <ClInclude Include="Source\Public\Vector4.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\Precompiled.cpp" />
+    <ClCompile Include="Source\Private\Box.cpp" />
+    <ClCompile Include="Source\Private\Circle.cpp" />
+    <ClCompile Include="Source\Private\Color32.cpp" />
+    <ClCompile Include="Source\Private\Frustum.cpp" />
+    <ClCompile Include="Source\Private\LinearColor.cpp" />
+    <ClCompile Include="Source\Private\Math.cpp" />
+    <ClCompile Include="Source\Private\Matrix2x2.cpp" />
+    <ClCompile Include="Source\Private\Matrix3x3.cpp" />
+    <ClCompile Include="Source\Private\Matrix4x4.cpp" />
+    <ClCompile Include="Source\Private\Plane.cpp" />
+    <ClCompile Include="Source\Private\Quaternion.cpp" />
+    <ClCompile Include="Source\Private\Rectangle.cpp" />
+    <ClCompile Include="Source\Private\Rotator.cpp" />
+    <ClCompile Include="Source\Private\Sphere.cpp" />
+    <ClCompile Include="Source\Private\Transform.cpp" />
+    <ClCompile Include="Source\Private\Vector2.cpp" />
+    <ClCompile Include="Source\Private\Vector3.cpp" />
+    <ClCompile Include="Source\Private\Vector4.cpp" />
+  </ItemGroup>
+</Project>

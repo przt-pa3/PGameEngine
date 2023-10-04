@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="Source\Precompiled.cpp" />
+    <ClCompile Include="Source\Private\Windows\WindowsRSI.cpp" />
+    <ClCompile Include="Source\Private\Windows\WindowsGDI.cpp" />
+    <ClCompile Include="Source\Private\Graphics\Vertex.cpp" />
+    <ClCompile Include="Source\Private\Graphics\Shader.cpp" />
+    <ClCompile Include="Source\Private\Graphics\PerspectiveTest.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\Precompiled.h" />
+    <ClInclude Include="Source\Public\RendererHeaders.h" />
+    <ClInclude Include="Source\Public\RendererInterface.h" />
+    <ClInclude Include="Source\Public\Windows\WindowsGDI.h" />
+    <ClInclude Include="Source\Public\Windows\WindowsRSI.h" />
+    <ClInclude Include="Source\Public\Graphics\Vertex.h" />
+    <ClInclude Include="Source\Public\Graphics\Shader.h" />
+    <ClInclude Include="Source\Public\Graphics\PerspectiveTest.h" />
+  </ItemGroup>
+</Project>
