@@ -72,7 +72,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>C:\Work\PGameEngine\Output\Windows\Library\Debug\</OutDir>
+    <OutDir>$(SolutionDir)..\Output\Windows\Library\Debug\</OutDir>
     <IntDir>EngineModule.dir\Debug\</IntDir>
     <TargetName>EngineModule</TargetName>
     <TargetExt>.lib</TargetExt>
@@ -113,11 +113,12 @@
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;PLATFORM_WINDOWS;Windows;CMAKE_INTDIR="Debug"</PreprocessorDefinitions>
       <ConformanceMode>Default</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\Work\PGameEngine\Project\Source\Runtime\Engine\Source;C:\Work\PGameEngine\Project\Source\Runtime\Engine\Source\Public;C:\Work\PGameEngine\Project\Source\Runtime\Engine\Source\ThirdParty;C:\Work\PGameEngine\Project\Source\Runtime\Math\Source\Public;C:\Work\PGameEngine\Project\Source\Runtime\Renderer\Source\Public;C:\Work\PGameEngine\Project\Source\Runtime\AssetLoader\Source\Public;C:\Work\PGameEngine\Project\Source\Runtime\AssetLoader\Source\Library\FBXSDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Source\Runtime\Engine\Source;$(SolutionDir)Source\Runtime\Engine\Source\Public;$(SolutionDir)Source\Runtime\Engine\Source\ThirdParty;$(SolutionDir)Source\Runtime\Math\Source\Public;$(SolutionDir)Source\Runtime\Renderer\Source\Public;$(SolutionDir)Source\Runtime\AssetLoader\Source\Public;$(SolutionDir)Source\Runtime\AssetLoader\Source\Library\FBXSDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <UseFullPaths>false</UseFullPaths>
+      <DisableSpecificWarnings>4099;4018;4083;4996;4267</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -171,7 +172,6 @@
     <ClInclude Include="Source\Public\Engine\Object\Bone.h" />
     <ClInclude Include="Source\Public\Engine\Object\CameraObject.h" />
     <ClInclude Include="Source\Public\Engine\Object\GameObjcet.h" />
-    <ClInclude Include="Source\Public\Engine\Object\GameObjectFactory.h" />
     <ClInclude Include="Source\Public\Engine\Object\Mesh.h" />
     <ClInclude Include="Source\Public\Engine\Object\SKMesh.h" />
     <ClInclude Include="Source\Public\Engine\Object\Texture.h" />

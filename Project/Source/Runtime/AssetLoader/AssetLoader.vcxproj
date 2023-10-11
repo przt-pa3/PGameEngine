@@ -73,7 +73,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>C:\Work\PGameEngine\Output\Windows\Library\Debug\</OutDir>
+    <OutDir>$(SolutionDir)..\Output\Windows\Library\Debug\</OutDir>
     <IntDir>AssetLoaderModule.dir\Debug\</IntDir>
     <TargetName>AssetLoaderModule</TargetName>
     <TargetExt>.lib</TargetExt>
@@ -113,13 +113,14 @@
       </SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>Default</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Work\PGameEngine\Project\Source\Runtime\AssetLoader\Source;C:\Work\PGameEngine\Project\Source\Runtime\AssetLoader\Source\Public;C:\Work\PGameEngine\Project\Source\Runtime\AssetLoader\Source\Library\FBXSDK\include;C:\Work\PGameEngine\Project\Source\Runtime\Math\Source;C:\Work\PGameEngine\Project\Source\Runtime\Math\Source\Public;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Source\Runtime\AssetLoader\Source;$(SolutionDir)Source\Runtime\AssetLoader\Source\Public;$(SolutionDir)Source\Runtime\AssetLoader\Source\Library\FBXSDK\include;$(SolutionDir)Source\Runtime\Math\Source;$(SolutionDir)Source\Runtime\Math\Source\Public;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <SupportJustMyCode>false</SupportJustMyCode>
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <UseFullPaths>false</UseFullPaths>
+      <DisableSpecificWarnings>4099;4018;4083;4996;4267</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

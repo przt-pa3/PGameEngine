@@ -1,6 +1,7 @@
 
 #include "Precompiled.h"
 
+
 void FBXLoader::Init()
 {
 	if (_IsInitialized)
@@ -20,7 +21,7 @@ bool FBXLoader::IsInitialized() const
 
 
 
-void FBXLoader::LoadCharacterFBX(const std::string& AssetName, OUT std::vector<Vector3>& Vertices, OUT std::vector<size_t>& Indices, OUT std::vector<Vector2>& Uvs, OUT std::string& TexturePath)
+void FBXLoader::LoadCharacterFBX(const std::string& AssetName, OUT std::vector<Vector3>& Vertices, OUT std::vector<size_t>& Indices, OUT std::vector<Vector2>& Uvs, OUT std::string& TexturePath, OUT SkeletonInfo& InSkeletonInfo, OUT std::vector<pqWrapper>& InWeightInfo)
 {
 	assert(_FbxManager);
 	
@@ -49,7 +50,7 @@ void FBXLoader::LoadCharacterFBX(const std::string& AssetName, OUT std::vector<V
 	unsigned int MeshVertexIndex = 0;
 
 	// TODO..
-	std::vector<BoneInfo> Skeleton;
+	std::vector<BoneInfo>& sk = InSkeletonInfo.BoneInfoVector;
 
 	for (auto i = 0; i < childCount; ++i)
 	{
@@ -59,7 +60,8 @@ void FBXLoader::LoadCharacterFBX(const std::string& AssetName, OUT std::vector<V
 		{
 			if (childAttribute->GetAttributeType() == FbxNodeAttribute::eSkeleton)
 			{
-				LoadSkeleton(childNode, OUT Skeleton);
+				LoadSkeleton(childNode, OUT InSkeletonInfo);
+				break;
 			}
 		}
 	}
@@ -82,7 +84,7 @@ void FBXLoader::LoadCharacterFBX(const std::string& AssetName, OUT std::vector<V
 
 				if (i == 2)
 				{
-					LoadMesh(childNode, OUT MeshVertexIndex, OUT Vertices, OUT Indices, OUT Uvs, OUT Skeleton);
+					LoadMesh(childNode, OUT MeshVertexIndex, OUT Vertices, OUT Indices, OUT Uvs, OUT InSkeletonInfo, OUT InWeightInfo);
 				}
 
 			}
@@ -91,7 +93,7 @@ void FBXLoader::LoadCharacterFBX(const std::string& AssetName, OUT std::vector<V
 
 }
 
-void FBXLoader::LoadMesh(FbxNode* InNode, OUT unsigned int& StartVIndex, OUT std::vector<Vector3>& Vertices, OUT std::vector<size_t>& Indices, OUT std::vector<Vector2>& Uvs, OUT std::vector<BoneInfo>& InSkeleton)
+void FBXLoader::LoadMesh(FbxNode* InNode, OUT unsigned int& StartVIndex, OUT std::vector<Vector3>& Vertices, OUT std::vector<size_t>& Indices, OUT std::vector<Vector2>& Uvs, OUT SkeletonInfo& InSkeletonInfo, OUT std::vector<pqWrapper>& InWeightInfo)
 {
 	char buffer[50];
 	sprintf(buffer, "%s - LoadMesh Called \n", InNode->GetName());
@@ -106,68 +108,15 @@ void FBXLoader::LoadMesh(FbxNode* InNode, OUT unsigned int& StartVIndex, OUT std
 	FbxNode* ConvertedNode = ConvertedAttribute->GetNode();
 	FbxMesh* ConvertedMesh = ConvertedNode->GetMesh();
 
-	// Getting Rig
-	unsigned int numOfDeformers = ConvertedMesh->GetDeformerCount();
-	FbxAMatrix GeometryTransform = GetGeometryTransformation(InNode);
-
-	for (unsigned int DeformerIndex = 0; DeformerIndex < numOfDeformers; ++DeformerIndex)
-	{
-		FbxSkin* currSkin = reinterpret_cast<FbxSkin*>(ConvertedMesh->GetDeformer(DeformerIndex, FbxDeformer::eSkin));
-		if (!currSkin) continue;
-
-		unsigned int numOfClusters = currSkin->GetClusterCount();
-
-		for (unsigned int ClusterIndex = 0; ClusterIndex < numOfClusters; ++ClusterIndex)
-		{
-			FbxCluster* currCluster = currSkin->GetCluster(ClusterIndex);
-			const char* currJointName = currCluster->GetLink()->GetName();
-
-			FbxAMatrix TransformMatrix;
-			FbxAMatrix TransformLinkMatrix;
-			FbxAMatrix GlobalBindPoseInverseMatrix;
-
-// TODO : Do Something With Bones
-			FbxTransform ClusterTransform = currCluster->GetLink()->GetTransform();
-			FbxAMatrix ClusterLocalTransform = currCluster->GetLink()->EvaluateLocalTransform();
-			FbxAMatrix ClusterGlobalTransform = currCluster->GetLink()->EvaluateGlobalTransform();
-
-			FbxVector4 ClusterTranslation = ClusterLocalTransform.GetT();
-			FbxQuaternion ClusterRotation = ClusterLocalTransform.GetQ();
-			FbxVector4 ClusterScale = ClusterLocalTransform.GetS();
-// ~ Bones
-
-			currCluster->GetTransformMatrix(TransformMatrix);
-			currCluster->GetTransformLinkMatrix(TransformLinkMatrix);
-			GlobalBindPoseInverseMatrix = TransformLinkMatrix.Inverse() * TransformMatrix * GeometryTransform;
-
-			unsigned int currJointIndex = FindBoneIndexByName(InSkeleton, currJointName);
-
-			// Update Informations to Joint (Skeleton vector)
-			unsigned int numOfIndices = currCluster->GetControlPointIndicesCount();
-
-			char buffer[100];
-			sprintf(buffer, "JointName : %s, Index : %d, numOfIndicies : %d \n", currJointName, currJointIndex, numOfIndices);
-			OutputDebugString(buffer);
-
-			for (unsigned int i = 0; i < numOfIndices; ++i)
-			{
-				//BlendingIndexWeightPair
-				currJointIndex;
-				double currWeight = currCluster->GetControlPointWeights()[i];
-
-				//char buffer2[100];
-				//sprintf(buffer2, "JointName : %s -> Affect Index : %d (weight : %f) \n", currJointName, currCluster->GetControlPointIndices()[i], currWeight);
-				//OutputDebugString(buffer2);
-			}
-		}
-	}
-	// ~ Getting Rig
-
+	// Read Vertices and Indices
 	unsigned int PointCount = ConvertedMesh->GetControlPointsCount();
 	unsigned int PolyCount = ConvertedMesh->GetPolygonCount();
 	FbxGeometryElementUV* vUV = ConvertedMesh->GetElementUV(0);
-	
+
 	unsigned int VertexCount = StartVIndex;
+
+	int viSize = ConvertedMesh->GetControlPointsCount();
+	std::vector<std::vector<int>> viToVertices(viSize);
 
 	for (auto p = 0; p < PolyCount; ++p)
 	{
@@ -184,7 +133,10 @@ void FBXLoader::LoadMesh(FbxNode* InNode, OUT unsigned int& StartVIndex, OUT std
 
 			Vertices.push_back(PGE::Vector3(x, y, z));
 			Indices.push_back(VertexCount);
-			
+
+			// link vi to Vertices
+			viToVertices[vi].push_back(VertexCount);
+
 			Vector2 VertexUV;
 			VertexUV = ReadUV(ConvertedMesh, vi, ConvertedMesh->GetTextureUVIndex(p, v));
 			Uvs.push_back(VertexUV);
@@ -194,19 +146,105 @@ void FBXLoader::LoadMesh(FbxNode* InNode, OUT unsigned int& StartVIndex, OUT std
 	}
 
 	StartVIndex = VertexCount;
+
+	// Getting Rig
+	InWeightInfo.resize(VertexCount);
+
+	unsigned int numOfDeformers = ConvertedMesh->GetDeformerCount();
+	FbxAMatrix GeometryTransform = GetGeometryTransformation(InNode);
+
+	assert(numOfDeformers == 1);
+
+	for (unsigned int DeformerIndex = 0; DeformerIndex < numOfDeformers; ++DeformerIndex)
+	{
+		FbxSkin* currSkin = reinterpret_cast<FbxSkin*>(ConvertedMesh->GetDeformer(DeformerIndex, FbxDeformer::eSkin));
+		if (!currSkin) continue;
+
+		unsigned int numOfClusters = currSkin->GetClusterCount();
+
+		for (unsigned int ClusterIndex = 0; ClusterIndex < numOfClusters; ++ClusterIndex)
+		{
+			FbxCluster* currCluster = currSkin->GetCluster(ClusterIndex);
+			const char* currJointFullName = (currCluster->GetLink()->GetName());
+
+			char* cpy = strdup(currJointFullName);
+			char* currJointName = NULL;
+			char* temp = strtok_s(cpy, ":", &currJointName);
+
+			FbxAMatrix TransformMatrix;
+			FbxAMatrix TransformLinkMatrix;
+			FbxAMatrix GlobalBindPoseInverseMatrix;
+
+// TODO : Do Something With Bones
+			FbxTransform ClusterTransform = currCluster->GetLink()->GetTransform();
+
+			// Should Be Global because : in GameEngine.cpp => Convert Global->Local When SetParent()
+			FbxAMatrix ClusterLocalTransform = currCluster->GetLink()->EvaluateGlobalTransform();		// Global Ver
+			//FbxAMatrix ClusterLocalTransform = currCluster->GetLink()->EvaluateLocalTransform();		// Local Ver
+
+
+			FbxAMatrix ClusterGlobalTransform = currCluster->GetLink()->EvaluateGlobalTransform();
+			
+			FbxVector4 ClusterTranslation = ClusterLocalTransform.GetT();
+			FbxQuaternion ClusterRotation = ClusterLocalTransform.GetQ();
+			FbxVector4 ClusterScale = ClusterLocalTransform.GetS();
+
+			BoneInfo& currBoneInfo = InSkeletonInfo.GetTargetBoneInfo(currJointName);
+			// free(cpy);
+
+			int currBoneIdx = currBoneInfo.Index;
+			currBoneInfo.Transform = Vector3(ClusterTranslation.mData[0], ClusterTranslation.mData[1], ClusterTranslation.mData[2]);
+
+			//char bufferBone[100];
+			//sprintf(bufferBone, "% s, % d, [% s, % d] \n", currBoneInfo.Name, currBoneInfo.Index, currJointName, ClusterIndex);
+			//OutputDebugString(bufferBone);
+			
+// ~ Bones
+
+			currCluster->GetTransformMatrix(TransformMatrix);
+			currCluster->GetTransformLinkMatrix(TransformLinkMatrix);
+			GlobalBindPoseInverseMatrix = TransformLinkMatrix.Inverse() * TransformMatrix * GeometryTransform;
+
+			// Update Informations to Joint (Skeleton vector)
+			unsigned int numOfIndices = currCluster->GetControlPointIndicesCount();
+
+			//char buffer[100];
+			//sprintf(buffer, "%s, %d, numOfIndicies : %d \n", currJointName, currJointIndex, numOfIndices);
+			//OutputDebugString(buffer);
+
+			for (unsigned int i = 0; i < numOfIndices; ++i)
+			{
+				
+				//BlendingIndexWeightPair
+				double currWeight = currCluster->GetControlPointWeights()[i];
+
+				const std::vector<int>& targetVertices = viToVertices[currCluster->GetControlPointIndices()[i]];
+				for (auto targetVertice : targetVertices)
+				{
+					//char buffertest[100];
+					//sprintf(buffertest, "%s, %d, %d, %f \n", currJointName, currBoneIdx, targetVertice, currWeight);
+					//OutputDebugString(buffertest);
+
+					InWeightInfo[targetVertice].push(std::make_pair(currWeight, currBoneIdx));
+				}
+			}
+		}
+	}
+	// ~ Getting Rig
+
+	
+
 }
 
-
-
-void FBXLoader::LoadSkeleton(FbxNode* InRootBoneNode, OUT std::vector<BoneInfo>& InSkeleton)
+void FBXLoader::LoadSkeleton(FbxNode* InRootBoneNode, OUT SkeletonInfo& InSkeletonInfo)
 {
 	assert(InRootBoneNode->GetNodeAttribute()->GetAttributeType() == FbxNodeAttribute::eSkeleton);
 	
 	//Skeleton.push_back(BoneInfo(InRootBoneNode));
-	GetBoneInfoRecursive(OUT InSkeleton, InRootBoneNode, 0, 0, -1);
+	GetBoneInfoRecursive(OUT InSkeletonInfo, InRootBoneNode, 0, 0, -1);
 }
 
-void FBXLoader::GetBoneInfoRecursive(OUT std::vector<BoneInfo>& InSkeleton, FbxNode* InNode, int Depth, int MyIndex, int ParentIndex)
+void FBXLoader::GetBoneInfoRecursive(OUT SkeletonInfo& InSkeletonInfo, FbxNode* InNode, int Depth, int MyIndex, int ParentIndex)
 {
 	assert(InNode->GetNodeAttribute()->GetAttributeType() == FbxNodeAttribute::eSkeleton);
 
@@ -214,13 +252,19 @@ void FBXLoader::GetBoneInfoRecursive(OUT std::vector<BoneInfo>& InSkeleton, FbxN
 	//auto MyName = InNode->GetName();
 	//sprintf(buffer, "%s : Depth %d, Index %d, Parent %d \n", MyName, Depth, MyIndex, ParentIndex);
 	//OutputDebugString(buffer);
-	
-	InSkeleton.push_back(BoneInfo(InNode, MyIndex, ParentIndex));
+
+	const char* currJointFullName = InNode->GetName();
+	char* cpy = strdup(currJointFullName);
+
+	char* currJointName = NULL;
+	char* temp = strtok_s(cpy, ":", &currJointName);
+	InSkeletonInfo.BoneInfoVector.push_back(BoneInfo(InNode, MyIndex, ParentIndex, currJointName));
+	//free(cpy);
 
 	for (int childIndex = 0; childIndex < InNode->GetChildCount(); ++childIndex)
 	{
 		FbxNode* childNode = InNode->GetChild(childIndex);
-		GetBoneInfoRecursive(InSkeleton, childNode, Depth + 1, InSkeleton.size(), MyIndex);
+		GetBoneInfoRecursive(InSkeletonInfo, childNode, Depth + 1, InSkeletonInfo.BoneInfoVector.size(), MyIndex);
 	}
 }
 
@@ -235,23 +279,9 @@ FbxAMatrix FBXLoader::GetGeometryTransformation(FbxNode* InNode)
 	return FbxAMatrix(lT, lR, lS);
 }
 
-unsigned int FBXLoader::FindBoneIndexByName(const std::vector<BoneInfo>& InSkeleton, const char* BoneName) const
-{
-	for (unsigned int i = 0; i < InSkeleton.size(); ++i)
-	{
-		if (InSkeleton[i].Name == BoneName)
-		{
-			return i;
-		}
-	}
-
-	assert(false);
-	return 0;
-}
-
 void FBXLoader::LoadAnimation()
 {
-
+	LoadAnimationWithName("Salute");
 }
 
 void FBXLoader::LoadAnimationWithName(const std::string& AnimationName)

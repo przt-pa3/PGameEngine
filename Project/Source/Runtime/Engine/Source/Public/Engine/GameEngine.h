@@ -76,18 +76,79 @@ private:
 	bool LoadResources();
 
 public: // 주요 키 값
-//	// 본
+//	 본
 	static const std::string GameEngine::RootBone;
 	static const std::string GameEngine::HipsBone;
 	static const std::string GameEngine::SpineBone;
-//	static const std::string PelvisBone;
-//	static const std::string SpineBone;
-//	static const std::string LeftArmBone;
-//	static const std::string RightArmBone;
-//	static const std::string NeckBone;
-//	static const std::string LeftLegBone;
-//	static const std::string RightLegBone;
-//
+	static const std::string GameEngine::Spine1Bone;
+	static const std::string GameEngine::Spine2Bone;
+	static const std::string GameEngine::NeckBone;
+	static const std::string GameEngine::HeadBone;
+	static const std::string GameEngine::HeadTop_EndBone;
+	static const std::string GameEngine::LeftEyeBone;
+	static const std::string GameEngine::RightEyeBone;
+	static const std::string GameEngine::LeftShoulderBone;
+	static const std::string GameEngine::LeftArmBone;
+	static const std::string GameEngine::LeftForeArmBone;
+	static const std::string GameEngine::LeftHandBone;
+	static const std::string GameEngine::LeftHandThumb1Bone;
+	static const std::string GameEngine::LeftHandThumb2Bone;
+	static const std::string GameEngine::LeftHandThumb3Bone;
+	static const std::string GameEngine::LeftHandThumb4Bone;
+	static const std::string GameEngine::LeftHandIndex1Bone;
+	static const std::string GameEngine::LeftHandIndex2Bone;
+	static const std::string GameEngine::LeftHandIndex3Bone;
+	static const std::string GameEngine::LeftHandIndex4Bone;
+	static const std::string GameEngine::LeftHandMiddle1Bone;
+	static const std::string GameEngine::LeftHandMiddle2Bone;
+	static const std::string GameEngine::LeftHandMiddle3Bone;
+	static const std::string GameEngine::LeftHandMiddle4Bone;
+	static const std::string GameEngine::LeftHandRing1Bone;
+	static const std::string GameEngine::LeftHandRing2Bone;
+	static const std::string GameEngine::LeftHandRing3Bone;
+	static const std::string GameEngine::LeftHandRing4Bone;
+	static const std::string GameEngine::LeftHandPinky1Bone;
+	static const std::string GameEngine::LeftHandPinky2Bone;
+	static const std::string GameEngine::LeftHandPinky3Bone;
+	static const std::string GameEngine::LeftHandPinky4Bone;
+	static const std::string GameEngine::Shield_jointBone;
+	static const std::string GameEngine::RightShoulderBone;
+	static const std::string GameEngine::RightArmBone;
+	static const std::string GameEngine::RightForeArmBone;
+	static const std::string GameEngine::RightHandBone;
+	static const std::string GameEngine::RightHandThumb1Bone;
+	static const std::string GameEngine::RightHandThumb2Bone;
+	static const std::string GameEngine::RightHandThumb3Bone;
+	static const std::string GameEngine::RightHandThumb4Bone;
+	static const std::string GameEngine::RightHandIndex1Bone;
+	static const std::string GameEngine::RightHandIndex2Bone;
+	static const std::string GameEngine::RightHandIndex3Bone;
+	static const std::string GameEngine::RightHandIndex4Bone;
+	static const std::string GameEngine::RightHandMiddle1Bone;
+	static const std::string GameEngine::RightHandMiddle2Bone;
+	static const std::string GameEngine::RightHandMiddle3Bone;
+	static const std::string GameEngine::RightHandMiddle4Bone;
+	static const std::string GameEngine::RightHandRing1Bone;
+	static const std::string GameEngine::RightHandRing2Bone;
+	static const std::string GameEngine::RightHandRing3Bone;
+	static const std::string GameEngine::RightHandRing4Bone;
+	static const std::string GameEngine::RightHandPinky1Bone;
+	static const std::string GameEngine::RightHandPinky2Bone;
+	static const std::string GameEngine::RightHandPinky3Bone;
+	static const std::string GameEngine::RightHandPinky4Bone;
+	static const std::string GameEngine::Sword_jointBone;
+	static const std::string GameEngine::LeftUpLegBone;
+	static const std::string GameEngine::LeftLegBone;
+	static const std::string GameEngine::LeftFootBone;
+	static const std::string GameEngine::LeftToeBaseBone;
+	static const std::string GameEngine::LeftToe_EndBone;
+	static const std::string GameEngine::RightUpLegBone;
+	static const std::string GameEngine::RightLegBone;
+	static const std::string GameEngine::RightFootBone;
+	static const std::string GameEngine::RightToeBaseBone;
+	static const std::string GameEngine::RightToe_EndBone;
+// ~ 본
+
 	// 메시
 	static const std::size_t CubeMesh;
 	static const std::size_t CharacterMesh;

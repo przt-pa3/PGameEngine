@@ -116,6 +116,13 @@ void SoftRenderer::RenderWorld()
 						continue;
 					}
 					const Bone& bone = b.second;
+
+					// Skip Drawing Root Bone
+					if (bone.GetName().compare("HipsBone") == 0)
+					{
+						continue;
+					}
+
 					const Bone& parentBone = currSKMesh.GetBone(bone.GetParentName());
 					const Transform& tGameObject = transform.GetWorldTransform();
 
@@ -130,6 +137,9 @@ void SoftRenderer::RenderWorld()
 					Vector3 boneVector = wt2.GetPosition() - wt1.GetPosition();
 					Transform tboneObject(wt1.GetPosition(), Quaternion(boneVector), Vector3(10.f, 10.f, boneVector.Size()));
 					Matrix4x4 boneMatrix = pvMatrix * tboneObject.GetMatrix();
+
+					
+
 					DrawMesh3D(boneMesh, boneMatrix, _BoneWireframeColor);
 				}
 			}

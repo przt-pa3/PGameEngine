@@ -37,7 +37,6 @@
     <ClInclude Include="Source\Public\Engine\Object\Texture.h" />
     <ClInclude Include="Source\Public\Engine\Framework\GameMode.h" />
     <ClInclude Include="Source\Public\Engine\Custom\PGameObject.h" />
-    <ClInclude Include="Source\Public\Engine\Object\GameObjectFactory.h" />
     <ClInclude Include="Source\Public\Engine\Object\CameraObject.h" />
     <ClInclude Include="Source\Public\Engine\Actor\Actor.h" />
     <ClInclude Include="Source\Public\Engine\Actor\Character.h" />

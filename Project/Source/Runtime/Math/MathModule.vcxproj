@@ -72,7 +72,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>C:\Work\PGameEngine\Output\Windows\Library\Debug\</OutDir>
+    <OutDir>$(SolutionDir)..\Output\Windows\Library\Debug\</OutDir>
     <IntDir>MathModule.dir\Debug\</IntDir>
     <TargetName>MathModule</TargetName>
     <TargetExt>.lib</TargetExt>
@@ -113,13 +113,14 @@
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;PLATFORM_WINDOWS;Windows;CMAKE_INTDIR="Debug"</PreprocessorDefinitions>
       <ConformanceMode>Default</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\Work\PGameEngine\Project\Source\Runtime\Math\Source;C:\Work\PGameEngine\Project\Source\Runtime\Math\Source\Public;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Source\Runtime\Math\Source;$(SolutionDir)Source\Runtime\Math\Source\Public;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <UseFullPaths>false</UseFullPaths>
+      <DisableSpecificWarnings>4099;4018;4083;4996;4267</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
