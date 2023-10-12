@@ -37,7 +37,12 @@
 
 # Custom
 *.pdb
+*.ilk
 **/.vs
+**/Debug
 **/x64
-
+Project/Source/Player/PGameEnginePlayer/PGameEnginePlayer.dir/
+Project/Source/Runtime/AssetLoader/AssetLoader.dir/
+Project/Source/Runtime/Engine/Engine.dir/
+Project/Source/Runtime/Renderer/Renderer.dir/
 # End of https://www.toptal.com/developers/gitignore/api/c++
