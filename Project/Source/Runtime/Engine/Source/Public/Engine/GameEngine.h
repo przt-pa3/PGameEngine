@@ -30,6 +30,9 @@ public:
 	virtual std::vector<PLogs>& GetLogs() override { return _EngineLogs; }
 	virtual PLogs& GetTargetLog(const std::string& LogHeader) override;
 
+	// TODO : Temp
+	virtual void InterfaceTestFunction() override;
+
 	// 게임 로직 용도 
 	const InputManager& GetInputManager() const { return _InputManager; }
 	const std::vector<PLogs>& GetLogs() const { return _EngineLogs; }

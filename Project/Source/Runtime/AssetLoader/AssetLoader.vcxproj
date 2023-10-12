@@ -434,6 +434,7 @@
     <ClInclude Include="Source\Precompiled.h" />
     <ClInclude Include="Source\Public\AssetLoader.h" />
     <ClInclude Include="Source\Public\AssetLoaderHeaders.h" />
+    <ClInclude Include="Source\Public\FBXDataStructure.h" />
     <ClInclude Include="Source\Public\FBXLoader.h" />
   </ItemGroup>
   <ItemGroup>

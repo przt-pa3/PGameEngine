@@ -181,8 +181,6 @@ void FBXLoader::LoadMesh(FbxNode* InNode, OUT unsigned int& StartVIndex, OUT std
 			// Should Be Global because : in GameEngine.cpp => Convert Global->Local When SetParent()
 			FbxAMatrix ClusterLocalTransform = currCluster->GetLink()->EvaluateGlobalTransform();		// Global Ver
 			//FbxAMatrix ClusterLocalTransform = currCluster->GetLink()->EvaluateLocalTransform();		// Local Ver
-
-
 			FbxAMatrix ClusterGlobalTransform = currCluster->GetLink()->EvaluateGlobalTransform();
 			
 			FbxVector4 ClusterTranslation = ClusterLocalTransform.GetT();
@@ -193,11 +191,9 @@ void FBXLoader::LoadMesh(FbxNode* InNode, OUT unsigned int& StartVIndex, OUT std
 			// free(cpy);
 
 			int currBoneIdx = currBoneInfo.Index;
-			currBoneInfo.Transform = Vector3(ClusterTranslation.mData[0], ClusterTranslation.mData[1], ClusterTranslation.mData[2]);
 
-			//char bufferBone[100];
-			//sprintf(bufferBone, "% s, % d, [% s, % d] \n", currBoneInfo.Name, currBoneInfo.Index, currJointName, ClusterIndex);
-			//OutputDebugString(bufferBone);
+// TODO - Need To Update ClusterRotation??
+			currBoneInfo.Transform = Vector3(ClusterTranslation.mData[0], ClusterTranslation.mData[1], ClusterTranslation.mData[2]);
 			
 // ~ Bones
 
@@ -335,6 +331,8 @@ void FBXLoader::LoadAnimationWithName(const std::string& AnimationName)
 
 	assert(SkeletonNode);
 
+
+
 	GetBoneAnimationRecursive(SkeletonNode, timeStartIndex, timeEndIndex);
 
 }
@@ -342,17 +340,30 @@ void FBXLoader::LoadAnimationWithName(const std::string& AnimationName)
 void FBXLoader::GetBoneAnimationRecursive(FbxNode* InNode, const FbxLongLong& InStartIndex, const FbxLongLong& InEndIndex)
 {
 	//FbxAMatrix currentTransformOffset = InNode->EvaluateGlobalTransform(InTime);
+	int abcd = 1;
+	const char* currClusterName = InNode->GetName();
 
 	for (FbxLongLong i = InStartIndex; i <= InEndIndex; ++i)
 	{
+		
+
 		FbxTime currTime;
 		currTime.SetFrame(i, FbxTime::eFrames24);
 		FbxAMatrix currentGlobalTransformOffset = InNode->EvaluateGlobalTransform(currTime);
 		FbxAMatrix currentLocalTransformOffset = InNode->EvaluateLocalTransform(currTime);
 
-		FbxVector4 ClusterTranslation = currentLocalTransformOffset.GetT();
-		FbxQuaternion ClusterRotation = currentLocalTransformOffset.GetQ();
-		FbxVector4 ClusterScale = currentLocalTransformOffset.GetS();
+		FbxVector4 ClusterTranslation = currentGlobalTransformOffset.GetT();
+		FbxVector4 ClusterRotation = currentGlobalTransformOffset.GetR();
+
+		char buffer[100];
+		sprintf(buffer, "%s [%d] - %f, %f, %f \n", currClusterName, i, ClusterTranslation.mData[0], ClusterTranslation.mData[1], ClusterTranslation.mData[2]);
+		OutputDebugString(buffer);
+
+		//FbxVector4 ClusterTranslation = currentLocalTransformOffset.GetT();
+		//FbxQuaternion ClusterRotation = currentLocalTransformOffset.GetQ();
+		//FbxVector4 ClusterScale = currentLocalTransformOffset.GetS();
+
+
 	}
 
 	for (int childIndex = 0; childIndex < InNode->GetChildCount(); ++childIndex)

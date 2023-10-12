@@ -518,3 +518,26 @@ bool GameEngine::LoadResources()
 {
 	return true;
 }
+
+// TODO : Temp, Should use Dynamic Casting
+void GameEngine::InterfaceTestFunction()
+{
+	static bool flag = true;
+
+	GameObject& goPlayer = GetGameObject("Player");
+	Mesh& m = GetMesh(goPlayer.GetMeshKey());
+	SKMesh& skm = static_cast<SKMesh&>(m);
+	Bone& NeckBone = skm.GetBone(GameEngine::NeckBone);
+
+	if (flag)
+	{
+		NeckBone.GetTransform().SetLocalRotation(Rotator(50.f, 0.f, 0.f));
+		flag = false;
+	}
+	else
+	{
+		NeckBone.GetTransform().SetLocalRotation(Rotator(-50.f, 0.f, 0.f));
+		flag = true;
+	}
+	
+}

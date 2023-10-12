@@ -151,6 +151,15 @@ void SoftRenderer::Update(float InDeltaSeconds)
 
 	CameraObject& camera = g.GetMainCamera();
 
+	// TODO - Temp first position
+	static bool firstUpdate = true;
+	if (firstUpdate)
+	{
+		camera.GetTransform().SetWorldPosition(Vector3(0.f, 140.f, 200.f));
+		camera.GetTransform().SetWorldRotation(Rotator(179.f, 0.f, 10.f));
+		firstUpdate = false;
+	}
+
 	// TODO - Improve Camera Rotation
 	camera.GetTransform().AddLocalYawRotation(-input.GetAxis(InputAxis::XAxis) * CameraRotateSpeed * InDeltaSeconds);
 	camera.GetTransform().AddLocalPitchRotation(-input.GetAxis(InputAxis::YAxis) * CameraRotateSpeed * InDeltaSeconds);

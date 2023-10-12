@@ -5,4 +5,5 @@
 #include <queue>
 
 #include "AssetLoader.h"
+#include "FBXDataStructure.h"
 #include "FBXLoader.h"
