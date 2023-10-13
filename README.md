@@ -4,13 +4,22 @@ Making Custom Game Engine
 
 TODO  
 ------------
-.gitignore 추가  
+
 모듈별 Readme  
 warning 삭제  
 fbxsdk로 프로젝트에 따로 넣어서 빌드 되게  
-경로설정  
-e.g.)  
->  $(SolutionDir)Source\Runtime\AssetLoader\Source  
+
+Animation Test complete  
+SKMesh, (Static)Mesh Casting   
+EngineInterface function  
+pass Animation Information to Engine  
+Adjust Camera Initial position  
+Y 100 R 0 P 5  
+Position : 40 130 120  
+
+~~.gitignore 추가~~
+~~경로설정  ~~
+
 ------------
 
 C:/Work/PGameEngine
