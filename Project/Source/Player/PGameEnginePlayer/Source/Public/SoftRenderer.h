@@ -4,7 +4,8 @@ enum class DrawMode : UINT32
 {
 	Normal = 0,
 	Wireframe,
-	DepthBuffer
+	DepthBuffer,
+	OnlyBone
 };
 
 enum class FillMode : UINT32
@@ -66,7 +67,8 @@ private:
 	// 기본 루프 함수
 	void PreUpdate();
 	void Update(float InDeltaSeconds);
-	void PostUpdate();
+	void LateUpdate(float InDeltaSeconds);
+	void PostRender();
 
 	// 렌더러 레퍼런스
 	FORCEINLINE RendererInterface& GetRenderer() { return *_RSIPtr.get(); }
@@ -75,7 +77,6 @@ private:
 
 	// Graphics
 	void LoadScene();
-	void LateUpdate(float InDeltaSeconds);
 	void Render();
 
 	//void DrawMesh2D(const class DD::Mesh& InMesh, const Matrix3x3& InMatrix, const LinearColor& InColor);
@@ -90,6 +91,7 @@ private:
 	// Drawing Modes
 	bool IsDepthBufferDrawing() const { return _CurrentDrawMode == DrawMode::DepthBuffer; }
 	bool IsWireframeDrawing() const { return _CurrentDrawMode == DrawMode::Wireframe; }
+	bool IsOnlyBoneDrawing() const { return _CurrentDrawMode == DrawMode::OnlyBone; }
 	DrawMode GetDrawMode() const { return _CurrentDrawMode; }
 	void SetDrawMode(DrawMode InDrawMode) { _CurrentDrawMode = InDrawMode; }
 	DrawMode _CurrentDrawMode = DrawMode::Normal;

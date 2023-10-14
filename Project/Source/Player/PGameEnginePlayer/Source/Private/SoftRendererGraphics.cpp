@@ -34,7 +34,62 @@ void SoftRenderer::LoadScene()
 
 void SoftRenderer::LateUpdate(float InDeltaSeconds)
 {
+	GameEngine& g = GetDirectGameEngine();
 
+	float AnimStartTime = 5.f;
+	static float elapsedTime = 0.f;
+	static bool AnimStarted = false;
+	elapsedTime += InDeltaSeconds;
+
+	if (!AnimStarted)
+	{	
+		if (elapsedTime > AnimStartTime)
+		{
+			AnimStarted = true;
+			elapsedTime = 0;
+			auto& l = g.GetLogs()[0];
+			l.PushLog("Anim Start", 5000.0f);
+		}
+		return;
+	}
+	return;
+	GameObject& goPlayer = g.GetGameObject(MainPlayer);
+	Mesh& m = g.GetMesh(goPlayer.GetMeshKey());
+	SKMesh& skm = static_cast<SKMesh&>(m);
+	Animation& anim = g.GetAnimation(GameEngine::SaluteAnimation);
+
+	const std::vector<bool>& animBU = anim.GetBoneUsage();
+	const std::vector <std::string>& animBN = anim.GetBoneNames();
+	const std::vector<std::vector<Quaternion>>& animQuat = anim.GetFrameQuaternions();
+	const std::vector<std::vector<Vector3>>& animTran = anim.GetFrameTranslantions();
+
+	int BoneSize = animQuat.size();
+	static int TargetFrame = 0;
+	float AnimFrameTime = 0.1f;
+	if (elapsedTime > AnimFrameTime)
+	{
+		elapsedTime = 0;
+		TargetFrame++;
+	}
+
+	if (TargetFrame >= 30)
+	{
+		TargetFrame = 0;
+	}
+
+	for (int idx = 0; idx < BoneSize; ++idx)
+	{
+		if (animBU[idx] && animTran[idx].size() > 0 && animQuat.size() > 0)
+		{
+			Bone& TargetBone = skm.GetBone(animBN[idx]);
+
+			std::string CurrName = animBN[idx];
+
+			TargetBone.GetTransform().SetLocalPosition(animTran[idx][TargetFrame]);
+			TargetBone.GetTransform().SetLocalRotation(animQuat[idx][TargetFrame]);
+			
+		}
+	}
 }
 
 void SoftRenderer::Render()
@@ -101,7 +156,7 @@ void SoftRenderer::RenderWorld()
 		}
 
 		// 스키닝이고 WireFrame인 경우 본을 그리기
-		if (mesh.IsSKMesh() && IsWireframeDrawing())
+		if (mesh.IsSKMesh() && (IsWireframeDrawing() || IsOnlyBoneDrawing()))
 		{
 			const Mesh& boneMesh = g.GetMesh(GameEngine::ArrowMesh);
 			Mesh& currMesh = const_cast<Mesh&>(mesh);
@@ -118,7 +173,11 @@ void SoftRenderer::RenderWorld()
 					const Bone& bone = b.second;
 
 					// Skip Drawing Root Bone
-					if (bone.GetName().compare("HipsBone") == 0)
+					if (bone.GetName().compare("HipsBone") == 0			||
+						bone.GetName().compare("Shield_jointBone") == 0	||
+						bone.GetName().compare("Sword_jointBone") == 0	||
+						bone.GetName().compare("LeftEyeBone") == 0		||
+						bone.GetName().compare("RightEyeBone") == 0)
 					{
 						continue;
 					}
@@ -146,7 +205,11 @@ void SoftRenderer::RenderWorld()
 			
 		}
 
-		DrawMesh3D(mesh, finalMatrix, gameObject.GetColor());
+		if (!IsOnlyBoneDrawing())
+		{
+			DrawMesh3D(mesh, finalMatrix, gameObject.GetColor());
+		}
+		
 
 		renderedObjects++;
 
@@ -175,7 +238,7 @@ void SoftRenderer::DrawMesh3D(const DDD::Mesh& InMesh, const Matrix4x4& InMatrix
 		{
 			Vector4 totalPosition = Vector4::Zero;
 			Weight w = static_cast<const DDD::SKMesh&>(InMesh).GetWeights()[vi];
-			for (size_t wi = 0; wi < static_cast<const DDD::SKMesh&>(InMesh).GetConnectedBones()[vi]; ++wi)
+			for (size_t wi = 0; wi <static_cast<const DDD::SKMesh&>(InMesh).GetConnectedBones()[vi]; ++wi)
 			{
 				std::string boneName = w.Bones[wi];
 				if (static_cast<const DDD::SKMesh&>(InMesh).HasBone(boneName))
@@ -209,6 +272,8 @@ void SoftRenderer::DrawMesh3D(const DDD::Mesh& InMesh, const Matrix4x4& InMatrix
 	// 삼각형 별로 그리기
 	for (int ti = 0; ti < triangleCount; ++ti)
 	{
+		
+
 		int bi0 = ti * 3, bi1 = ti * 3 + 1, bi2 = ti * 3 + 2;
 		std::vector<Vertex3D> tvs = { vertices[indice[bi0]] , vertices[indice[bi1]] , vertices[indice[bi2]] };
 
@@ -234,7 +299,11 @@ void SoftRenderer::DrawMesh3D(const DDD::Mesh& InMesh, const Matrix4x4& InMatrix
 		{
 			size_t si = ti * 3;
 			std::vector<Vertex3D> sub(tvs.begin() + si, tvs.begin() + si + 3);
+
+
 			DrawTriangle3D(sub, InColor, FillMode::Color);
+
+			
 		}
 	}
 }
@@ -278,7 +347,7 @@ void SoftRenderer::DrawTriangle3D(std::vector<DDD::Vertex3D>& InVertices, const 
 		v.Position.Y *= _ScreenSize.Y * 0.5f;
 	}
 
-	if (IsWireframeDrawing())
+	if (IsWireframeDrawing() || IsOnlyBoneDrawing())
 	{
 		LinearColor finalColor = _WireframeColor;
 		if (InColor == _BoneWireframeColor)

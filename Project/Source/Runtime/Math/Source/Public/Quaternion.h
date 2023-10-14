@@ -163,6 +163,8 @@ FORCEINLINE constexpr void Quaternion::FromRotator(const Rotator& InRotator)
 	X = sy * sr * cp + sp * cy * cr;
 	Y = sy * cp * cr - sp * sr * cy;
 	Z = -sy * sp * cr + sr * cy * cp;
+
+
 }
 
 FORCEINLINE constexpr Quaternion Quaternion::operator*(const Quaternion & InQuaternion) const

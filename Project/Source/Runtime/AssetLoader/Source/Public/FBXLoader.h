@@ -48,16 +48,17 @@ public:
 	//		Parent 정보 
 	//		메시에 리깅?
 	
-	void LoadCharacterFBX(const std::string& AssetName, OUT std::vector<Vector3>& Vertices, OUT std::vector<size_t>& Indices, OUT std::vector<Vector2>& Uvs, OUT std::string& TexturePath, OUT SkeletonInfo& InSkeletonInfo, OUT std::vector<pqWrapper>& InWeightInfo);
-	void LoadMesh(FbxNode* InNode, OUT unsigned int& StartVIndex, OUT std::vector<Vector3>& Vertices, OUT std::vector<size_t>& Indices, OUT std::vector<Vector2>& Uvs, OUT SkeletonInfo& InSkeletonInfo, OUT std::vector<pqWrapper>& InWeightInfo);
+	void LoadCharacterFBX(const std::string& AssetName, OUT std::vector<Vector3>& Vertices, OUT std::vector<size_t>& Indices, OUT std::vector<Vector2>& Uvs, OUT std::string& TexturePath, OUT SkeletonInfo& InSkeletonInfo, OUT std::vector<std::vector<std::pair<std::string, float>>>& InWeightInfo);
+	void LoadMesh(FbxNode* InNode, OUT unsigned int& StartVIndex, OUT std::vector<Vector3>& Vertices, OUT std::vector<size_t>& Indices, OUT std::vector<Vector2>& Uvs, OUT SkeletonInfo& InSkeletonInfo, OUT std::vector<std::vector<std::pair<std::string, float>>>& InWeightInfo);
 	void LoadSkeleton(FbxNode* InRootBoneNode, OUT SkeletonInfo& InSkeletonInfo);
 	void GetBoneInfoRecursive(OUT SkeletonInfo& InSkeletonInfo, FbxNode* InNode, int InDepth, int MyIndex, int ParentIndex);
 
 	FbxAMatrix GetGeometryTransformation(FbxNode* InNode);
 
 	void LoadAnimation();
-	void LoadAnimationWithName(const std::string& AnimationName);
-	void GetBoneAnimationRecursive(FbxNode* InNode, const FbxLongLong& InStartIndex, const FbxLongLong& InEndIndex);
+	void LoadAnimationWithName(const std::string& AnimationName, const std::vector<std::string>& SKBones, OUT std::vector<std::string>& BoneNames, OUT std::vector<bool>& BoneUsage, std::vector<std::vector<Vector3>>& FTranslations, OUT std::vector <std::vector<Quaternion>>& FRotations);
+	void GetBoneAnimationRecursive(FbxNode* InNode, const FbxLongLong& InStartIndex, const FbxLongLong& InEndIndex, const std::vector<std::string>& SKBones, 
+		OUT std::vector<std::string>& BoneNames, OUT std::vector<bool>& BoneUsage, OUT std::vector<std::vector<Vector3>>& FTranslations, OUT std::vector <std::vector<Quaternion>>& FRotations);
 
 
 	// Texture Related

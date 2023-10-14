@@ -30,8 +30,8 @@ public:
 	virtual std::vector<PLogs>& GetLogs() override { return _EngineLogs; }
 	virtual PLogs& GetTargetLog(const std::string& LogHeader) override;
 
-	// TODO : Temp
-	virtual void InterfaceTestFunction() override;
+	//// TODO : Temp
+	//virtual void InterfaceTestFunction() override;
 
 	// 게임 로직 용도 
 	const InputManager& GetInputManager() const { return _InputManager; }
@@ -50,6 +50,7 @@ public:
 	Mesh& CreateMesh(const std::size_t& InKey);
 	SKMesh& CreateSKMesh(const std::size_t& InKey);
 	Texture& CreateTexture(const std::size_t& InKey);
+	Animation& CreateAnimation(const std::size_t& InKey);
 
 	// 게임 오브젝트
 	const std::vector<std::unique_ptr<GameObject>>& GetScene() const { return _Scene; }
@@ -65,6 +66,10 @@ public:
 	Mesh& GetMesh(const std::size_t& InMeshKey) { return *_Meshes.at(InMeshKey).get(); }
 	const Mesh& GetMesh(const std::size_t& InMeshKey) const { return *_Meshes.at(InMeshKey).get(); }
 
+	// Animation
+	Animation& GetAnimation(const std::size_t& InAnimKey) { return *_Anims.at(InAnimKey).get(); }
+	const Animation& GetAnimation(const std::size_t& InAnimKey) const { return *_Anims.at(InAnimKey).get(); }
+	
 	// 카메라 
 	FORCEINLINE CameraObject& GetMainCamera() { return _MainCamera; }
 	FORCEINLINE const CameraObject& GetMainCamera() const { return _MainCamera; }
@@ -156,17 +161,21 @@ public: // 주요 키 값
 	static const std::size_t CubeMesh;
 	static const std::size_t CharacterMesh;
 	static const std::size_t ArrowMesh;
-//	static const std::size_t PlaneMesh;
-//
-//	// 텍스처
+
+
+	// 텍스처
 	static const std::size_t BaseTexture;
 	static const std::size_t CharacterTexture;
-//	static const std::string CharacterTexturePath;
+
+	// Animation
+	static const std::size_t SaluteAnimation;
 
 	// GameObject Factories
 	static PGameObjectFactory PFactory;
 	static ActorFactory ActorFactory;
 	static CharacterFactory CharacterFactory;
+
+	
 
 private:
 	bool _IsInitialized = false;
@@ -185,6 +194,7 @@ private:
 	std::unordered_map<std::size_t, std::unique_ptr<Mesh>> _Meshes;
 	std::unordered_map<std::size_t, std::unique_ptr<Texture>> _Textures;
 	std::unordered_map<std::string, GameObject*> _BoneGameObjectOtrs;
+	std::unordered_map<std::size_t, std::unique_ptr<Animation>> _Anims;
 	
 	
 };

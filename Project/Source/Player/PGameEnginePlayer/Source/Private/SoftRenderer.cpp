@@ -26,12 +26,11 @@ void SoftRenderer::OnTick()
 	if (_TickEnabled)
 	{
 		PreUpdate();
-
 		Update(_FrameTime / 1000.0f);
 		LateUpdate(_FrameTime / 1000.0f);
-		Render();
 
-		PostUpdate();
+		Render();
+		PostRender();
 	}
 }
 
@@ -135,9 +134,10 @@ void SoftRenderer::PreUpdate()
 
 	if (sinput.IsReleased(SystemInputButton::F1)) { SetDrawMode(DrawMode::Normal); }
 	if (sinput.IsReleased(SystemInputButton::F2)) { SetDrawMode(DrawMode::Wireframe); }
-	if (sinput.IsReleased(SystemInputButton::F8)) { TestPermLog(); }
-	if (sinput.IsReleased(SystemInputButton::F9)) { TestTempLog(); }
-	if (sinput.IsReleased(SystemInputButton::F7)) { TestFunc(); }
+	if (sinput.IsReleased(SystemInputButton::F3)) { SetDrawMode(DrawMode::OnlyBone); }
+	if (sinput.IsReleased(SystemInputButton::F7)) { TestPermLog(); }
+	if (sinput.IsReleased(SystemInputButton::F4)) { TestTempLog(); }
+	if (sinput.IsReleased(SystemInputButton::F9)) { TestFunc(); }
 }
 
 void SoftRenderer::Update(float InDeltaSeconds)
@@ -172,14 +172,11 @@ void SoftRenderer::Update(float InDeltaSeconds)
 		auto& g = GetGameEngine();
 		auto& l = g.GetLogs()[0];
 		l.PushLog("Input :: Z", 5000.0f);
-
-		g.InterfaceTestFunction();
-
-		
+		//g.InterfaceTestFunction();		
 	}
 }
 
-void SoftRenderer::PostUpdate()
+void SoftRenderer::PostRender()
 {
 	GetRenderer().EndFrame();
 

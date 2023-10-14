@@ -16,6 +16,7 @@
 #include "Engine/Object/Bone.h"
 #include "Engine/Object/Mesh.h"
 #include "Engine/Object/SKMesh.h"
+#include "Engine/Animation/Animation.h"
 
 #include "Engine/Object/GameObjcet.h"
 #include "Engine/Object/CameraObject.h"

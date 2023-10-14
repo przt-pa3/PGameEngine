@@ -38,7 +38,7 @@ public:
 	virtual std::vector<PLogs>& GetLogs() = 0;
 	virtual PLogs& GetTargetLog(const std::string& LogHeader) = 0;
 
-	virtual void InterfaceTestFunction() = 0;
+	//virtual void InterfaceTestFunction() = 0;
 };
 
 }
