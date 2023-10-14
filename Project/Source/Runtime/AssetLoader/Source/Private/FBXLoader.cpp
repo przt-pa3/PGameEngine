@@ -23,8 +23,7 @@ void FBXLoader::LoadCharacterFBX(const std::string& AssetName, OUT std::vector<V
 {
 	assert(_FbxManager);
 	
-	const std::string InFi
-		lePath = AssetFolderPath + "Character/" + AssetName + ".fbx";
+	const std::string InFilePath = AssetFolderPath + "Character/" + AssetName + ".fbx";
 	const std::string TextureFilePath = AssetFolderPath + "Character/" + AssetName + ".fbm/" + AssetName + "_";
 	TexturePath = TextureFilePath;
 
