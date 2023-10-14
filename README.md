@@ -14,17 +14,16 @@ https://www.notion.so/przt-paaa/Simple-3D-Renderer-Only-using-CPU-e50ce054c6ce43
 ------------
 ## 3D Renderer
 
-![normal](./image/Normal.gif)  
-![wire](./image/Wire.gif)  
-![onlybone](./image/OnlyBone.gif)  
+<div align="center">
+  <img src="/image/Normal.gif" width="300" height="250"/> <img src="/image/Wire.gif" width="300" height="250"/> <img src="/image/OnlyBone.gif" width="300" height="250"/>
+</div>
 
 
+  
     
 Render 3D Mesh and Animation  
 Loading FBX file using FBX SDK  
-  
-  gif
-  
+
 ------------
 
 ## TODO )
@@ -37,5 +36,7 @@ Add Anim-Instance, anim-playing functions
   
 PLog Class  
 use Macros, Need to move getLog to EngineInterface (not Engine Ref.)  
+
+Go On Next Project..
   
 ------------
