@@ -14,7 +14,10 @@ https://www.notion.so/przt-paaa/Simple-3D-Renderer-Only-using-CPU-e50ce054c6ce43
 ------------
 ## 3D Renderer
 
-![fheap-insert](./image/fheap-insert.gif)  
+![normal](./image/Normal.gif)  
+![wire](./image/Wire.gif)  
+![onlybone](./image/OnlyBone.gif)  
+
 
     
 Render 3D Mesh and Animation  
