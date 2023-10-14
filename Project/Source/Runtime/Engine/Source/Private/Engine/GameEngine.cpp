@@ -316,7 +316,6 @@ void GameEngine::LoadAsset()
 	auto& uv = CharacterMesh.GetUVs();
 
 	SkeletonInfo CharacterSkeleton;
-	//std::vector<pqWrapper> WeightInfo;
 	std::vector<std::vector<std::pair<std::string, float>>> WeightInfo;
 
 	std::string TexturePath;

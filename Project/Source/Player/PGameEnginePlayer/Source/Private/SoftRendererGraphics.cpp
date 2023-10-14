@@ -36,7 +36,7 @@ void SoftRenderer::LateUpdate(float InDeltaSeconds)
 {
 	GameEngine& g = GetDirectGameEngine();
 
-	float AnimStartTime = 5.f;
+	const float AnimStartTime = 5.f;
 	static float elapsedTime = 0.f;
 	static bool AnimStarted = false;
 	elapsedTime += InDeltaSeconds;
@@ -52,7 +52,7 @@ void SoftRenderer::LateUpdate(float InDeltaSeconds)
 		}
 		return;
 	}
-	return;
+
 	GameObject& goPlayer = g.GetGameObject(MainPlayer);
 	Mesh& m = g.GetMesh(goPlayer.GetMeshKey());
 	SKMesh& skm = static_cast<SKMesh&>(m);

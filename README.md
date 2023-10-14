@@ -1,48 +1,30 @@
 # PGameEngine
-Making Custom Game Engine 
-(Now On Animation)
+Making Custom Game Engine Project  
 
-TODO  
+1) Simple 3D Renderer (only Using CPU)  
+  
+Related Document - Notion  
+  
+https://www.notion.so/przt-paaa/Simple-3D-Renderer-Only-using-CPU-e50ce054c6ce436aa8ce142cf8787407
+  
+------------
+  
+Render 3D Mesh and Animation  
+Loading FBX file using FBX SDK  
+  
+  gif
+  
 ------------
 
-모듈별 Readme  
-warning 삭제  
-fbxsdk로 프로젝트에 따로 넣어서 빌드 되게  
+TODO )
 
-Animation Test complete  
-SKMesh, (Static)Mesh Casting   
-EngineInterface function  
-pass Animation Information to Engine  
-Adjust Camera Initial position  
-Y 100 R 0 P 5  
-Position : 40 130 120  
-
-~~.gitignore 추가~~
-~~경로설정  ~~
-
+GameEngine::LoadAsset  
+Encapsulate loaded data handling to each class (Animation, Mesh ...)  
+  
+Animation Class  
+Add Anim-Instance, anim-playing functions  
+  
+PLog Class  
+use Macros, Need to move getLog to EngineInterface (not Engine Ref.)  
+  
 ------------
-
-C:/Work/PGameEngine
-
-PGameEngine Solution is built with 5 Projects
-
-1) MathModule
-dd
-d
-
-2) RendererModule
-dd
-d
-
-3) AssetLoaderModule
-dd
-d
-
-4) EngineModule
-dd
-d
-
-5) PGameEnginePlayer
-d
-ddd
-
